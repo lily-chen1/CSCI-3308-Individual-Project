@@ -40,18 +40,19 @@
 				<div class="modal-body">
 					<form id="reviewForm" action="/addReview" method="post">
 						<div class="mb-3">
-							<label for="exampleFormControlInput1" class="form-label">Meal name</label>
-							<input type="text" class="form-control" id="exampleFormControlInput1" disabled>
+							<label for="meal" class="form-label">Meal name</label>
+							<input type="meal" class="form-control" id="meal" name="meal" readonly>
 						</div>
 						<div class="mb-3">
-							<label for="exampleFormControlTextarea1" class="form-label">Enter your review here</label>
-							<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+							<label for="review" class="form-label">Enter your review here</label>
+							<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="review"
+								name="review"></textarea>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" type="submit" form="reviewForm">Submit Review</button>
+					<button class="btn btn-primary" type="submit" form="reviewForm">Submit Review</button>
 				</div>
 			</div>
 		</div>

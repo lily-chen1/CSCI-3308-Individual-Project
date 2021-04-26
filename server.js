@@ -51,20 +51,16 @@ app.get("/", function (req, res) {
 });
 
 app.post("/addReview", async function (req, res) {
-  console.log(req.body);
-
-  return;
-  var username = req.body.username;
-  var name = req.body.name;
-  var email = req.body.email;
-  var password = req.body.password;
-  var rank = 1;
-  var query = `SELECT user_id FROM public.users WHERE user_name='${username}' OR email='${email}';`;
+  const meal = req.body.meal;
+  const review = req.body.review;
+  var query = `INSERT INTO reviews(meal, review, review_date) VALUES('${meal}', '${review}', '${Date()}');`;
   await db
-    .task("/register/register_user", (task) => {
+    .task("/addReview", (task) => {
       return task.batch([task.any(query)]);
     })
-    .then((data) => {})
+    .then((data) => {
+      console.log("success");
+    })
     .catch((err) => {
       console.log("error", err);
     });
