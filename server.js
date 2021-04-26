@@ -45,9 +45,53 @@ app.get("/", function (req, res) {
   res.render("pages/main", {
     local_css: "main.css",
     my_title: "Home Page",
-    loggedin: req.session.loggedin,
-    username: req.session.username,
   });
+});
+
+app.get("/reviews", function (req, res) {
+  let query = "SELECT * FROM reviews;";
+  db.task("/reviews", (task) => {
+    return task.batch([task.any(query)]);
+  })
+    .then((data) => {
+      res.render("pages/reviews", {
+        local_css: "reviews.css",
+        my_title: "Home Page",
+        data,
+      });
+    })
+    .catch((err) => {
+      console.log("error", err);
+      res.render("pages/reviews", {
+        local_css: "reviews.css",
+        my_title: "Home Page",
+        data: "",
+      });
+    });
+});
+
+app.post("/reviews", function (req, res) {
+  console.log(req.body);
+  return;
+  query = `SELECT * FROM reviews WHERE meal=${req.body.meal};`;
+  db.task("/reviews", (task) => {
+    return task.batch([task.any(query)]);
+  })
+    .then((data) => {
+      res.render("pages/reviews", {
+        local_css: "reviews.css",
+        my_title: "Home Page",
+        data,
+      });
+    })
+    .catch((err) => {
+      console.log("error", err);
+      res.render("pages/reviews", {
+        local_css: "reviews.css",
+        my_title: "Home Page",
+        data: "",
+      });
+    });
 });
 
 app.post("/addReview", async function (req, res) {
@@ -59,7 +103,7 @@ app.post("/addReview", async function (req, res) {
       return task.batch([task.any(query)]);
     })
     .then((data) => {
-      console.log("success");
+      res.redirect("/reviews");
     })
     .catch((err) => {
       console.log("error", err);

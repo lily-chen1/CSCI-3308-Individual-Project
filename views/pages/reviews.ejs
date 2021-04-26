@@ -1,0 +1,59 @@
+<%- include('../partials/header') %>
+    <div class="wrapper">
+        <div class="container">
+            <div class="card" style="margin-top:-10em;">
+                <div class="card-body">
+                    <h5 class="card-title">Meal Reviews</h5>
+                    <form action="/reviews" method="post">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">🍔</span>
+                        <input type="text" class="form-control" placeholder="Enter meal name" id="search" name="meal">
+                    </div>
+                    <button class="btn btn-outline-primary" id="searchButton">Filter</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card" style="margin-top:4em;">
+                <div class="card-body">
+            <table class="table table-bordered" id="stats_table">
+                <tr>
+                    <th class="align-bottom" rowspan="2">Meal</th>
+                    <th class="align-bottom" rowspan="2">Review</th>
+                    <th class="align-bottom" rowspan="2">Review Date</th>
+                </tr>
+                <tr>
+                </tr>
+                <% 
+                if (data) { 
+                    var rowData ='' ; 
+                    data[0].forEach(function(item) { 
+                        rowData += '<tr>';
+                        rowData += '<td>' + item.meal + '</td>'; 
+                        rowData += '<td>' + item.review + '</td>';
+                        rowData += '<td>' + item.review_date + '</td>';
+                        rowData += '</tr>';
+                    }); %>
+                    <%- rowData %>
+                <% } %>
+            </table>
+            </div>
+            </div>
+        </div>
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <%- include('../partials/footer') %>
