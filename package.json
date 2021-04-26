@@ -1,0 +1,23 @@
+{
+  "name": "csci-3308-individual-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lily-chen1/CSCI-3308-Individual-Project.git"
+  },
+  "author": "Lily Chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lily-chen1/CSCI-3308-Individual-Project/issues"
+  },
+  "homepage": "https://github.com/lily-chen1/CSCI-3308-Individual-Project#readme",
+  "dependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
