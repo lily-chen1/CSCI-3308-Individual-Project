@@ -54,7 +54,7 @@ app.get("/reviews", function (req, res) {
   if (Object.keys(req.query).length == 0) {
     query = "SELECT * FROM reviews;";
   } else {
-    query = `SELECT * FROM reviews WHERE meal=${req.query.meal};`;
+    query = `SELECT * FROM reviews WHERE meal='${req.query.meal}';`;
   }
   db.task("/reviews", (task) => {
     return task.batch([task.any(query)]);
