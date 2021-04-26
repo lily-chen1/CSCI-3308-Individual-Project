@@ -1,37 +1,29 @@
-let passwordString = "";
-if (!process.env.DATABASE_URL) {
-  const { password } = require("./passwords");
-  passwordString = password;
-}
 var express = require("express"); //Ensure our express framework has been added
 var app = express();
 var bodyParser = require("body-parser"); //Ensure our body-parser tool has been added
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-const session = require("express-session");
 
-app.use(
-  session({
-    secret: "secret",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
-
+var pgp = require('pg-promise')();
 //Create Database Connection
-var pgp = require("pg-promise")();
-let databaseConfig;
-if (process.env.PORT) {
-  databaseConfig = {
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  };
-} else {
-  databaseConfig = `postgresql://postgres:${passwordString}@localhost:5432/postgres`;
+const dev_dbConfig = {
+	host: 'db',
+	port: 5432,
+	database: process.env.POSTGRES_DB,
+	user: process.env.POSTGRES_USER,
+	password: process.env.POSTGRES_PASSWORD
+};
+
+
+const isProduction = process.env.NODE_ENV === 'production';
+const dbConfig = isProduction ? process.env.DATABASE_URL : dev_dbConfig;
+
+// fixes: https://github.com/vitaly-t/pg-promise/issues/711
+if (isProduction) {
+	pgp.pg.defaults.ssl = {rejectUnauthorized: false};
 }
-const db = pgp(databaseConfig);
+
+let db = pgp(dbConfig);
 module.exports.db = db;
 
 process.on("uncaughtException", function (err) {
@@ -39,6 +31,7 @@ process.on("uncaughtException", function (err) {
 });
 
 app.set("view engine", "ejs");
+app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + "/")); //This line is necessary for us to use relative paths and access our resources directory
 
 app.get("/", function (req, res) {
@@ -92,7 +85,6 @@ app.post("/addReview", async function (req, res) {
     });
 });
 
-const port = process.env.PORT || 3000;
-module.exports.server = app.listen(port, function () {
-  console.log("App is running on port " + port);
+module.exports.server = app.listen(process.env.PORT || 3000, () => {
+  console.log(`Express running → PORT ${server.address().port}`);
 });
