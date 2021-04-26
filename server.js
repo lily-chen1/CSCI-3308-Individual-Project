@@ -50,6 +50,26 @@ app.get("/", function (req, res) {
   });
 });
 
+app.post("/addReview", async function (req, res) {
+  console.log(req.body);
+
+  return;
+  var username = req.body.username;
+  var name = req.body.name;
+  var email = req.body.email;
+  var password = req.body.password;
+  var rank = 1;
+  var query = `SELECT user_id FROM public.users WHERE user_name='${username}' OR email='${email}';`;
+  await db
+    .task("/register/register_user", (task) => {
+      return task.batch([task.any(query)]);
+    })
+    .then((data) => {})
+    .catch((err) => {
+      console.log("error", err);
+    });
+});
+
 const port = process.env.PORT || 3000;
 module.exports.server = app.listen(port, function () {
   console.log("App is running on port " + port);

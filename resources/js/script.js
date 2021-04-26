@@ -34,7 +34,7 @@ const searchCall = () => {
         outputData += `Link to Youtube Video Unavailable`;
       }
       outputData += `
-      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Review</button>
+      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="${json.meals[0].strMeal}">Add Review</button>
         </div>
         </div>
         </div>`;
@@ -46,4 +46,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
   search = document.getElementById("search");
   output = document.getElementById("output");
   document.getElementById("searchButton").addEventListener("click", searchCall);
+  var exampleModal = document.getElementById("exampleModal");
+  exampleModal.addEventListener("show.bs.modal", function (event) {
+    // Button that triggered the modal
+    var button = event.relatedTarget;
+    // Extract info from data-bs-* attributes
+    var recipient = button.getAttribute("data-bs-whatever");
+    // If necessary, you could initiate an AJAX request here
+    // and then do the updating in a callback.
+    //
+    // Update the modal's content.
+    var modalTitle = exampleModal.querySelector(".modal-title");
+    var modalBodyInput = exampleModal.querySelector(".modal-body input");
+
+    modalTitle.textContent = "Add Review of " + recipient;
+    modalBodyInput.value = recipient;
+  });
 });
