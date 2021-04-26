@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require("express"); //Ensure our express framework has been added
 var app = express();
 var bodyParser = require("body-parser"); //Ensure our body-parser tool has been added
@@ -7,13 +8,12 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 var pgp = require('pg-promise')();
 //Create Database Connection
 const dev_dbConfig = {
-	host: 'db',
+	host: 'localhost',
 	port: 5432,
 	database: process.env.POSTGRES_DB,
 	user: process.env.POSTGRES_USER,
 	password: process.env.POSTGRES_PASSWORD
 };
-
 
 const isProduction = process.env.NODE_ENV === 'production';
 const dbConfig = isProduction ? process.env.DATABASE_URL : dev_dbConfig;
@@ -42,7 +42,6 @@ app.get("/", function (req, res) {
 });
 
 app.get("/reviews", function (req, res) {
-  console.log(req.query);
   let query;
   if (Object.keys(req.query).length == 0) {
     query = "SELECT * FROM reviews;";
